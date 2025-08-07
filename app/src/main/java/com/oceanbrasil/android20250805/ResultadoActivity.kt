@@ -20,11 +20,13 @@ class ResultadoActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+
+        val nomeDigitado = intent.getStringExtra("apelido") ?: "Não informado"
         setContent {
             Android20250805Theme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     Text(
-                        text = "Estamos na Resultado activity",
+                        text = nomeDigitado,
                         fontSize = 48.sp,
                         color = Color.Red,
                         modifier = Modifier.padding(innerPadding)

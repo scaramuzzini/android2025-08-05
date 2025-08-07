@@ -40,10 +40,11 @@ class MainActivity : ComponentActivity() {
                         name = "Android",
                         modifier = Modifier
                                     .padding(innerPadding),
-                        onEnviarClick = {
+                        onEnviarClick = { nomeDigitado ->
                             //transferir para ResultadoActivity
                             Toast.makeText(this, "Tocou no btn!", Toast.LENGTH_LONG).show()
                             val intent = Intent(this, ResultadoActivity::class.java)
+                            intent.putExtra("apelido", nomeDigitado)
                             startActivity(intent)
                         }
                     )
@@ -56,7 +57,7 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun Formulario(name: String, modifier: Modifier = Modifier
-               , onEnviarClick: () -> Unit) {
+               , onEnviarClick: (String) -> Unit) {
     var nomeDigitado by remember { mutableStateOf("") }
     var mensagem by remember { mutableStateOf("Aguardando... ")}
     val context = LocalContext.current
@@ -80,7 +81,7 @@ fun Formulario(name: String, modifier: Modifier = Modifier
         BotaoAzulOcean(onClick = {
             Log.d("MainActivity", "O nome digitado é: $nomeDigitado")
             mensagem = "Olá, $nomeDigitado"
-            onEnviarClick()
+            onEnviarClick(nomeDigitado)
         })
     }
 }
