@@ -1,6 +1,7 @@
 package com.oceanbrasil.android20250805
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
@@ -44,7 +45,7 @@ class MainActivity : ComponentActivity() {
                             //transferir para ResultadoActivity
                             Toast.makeText(this, "Tocou no btn!", Toast.LENGTH_LONG).show()
                             val intent = Intent(this, ResultadoActivity::class.java)
-                            intent.putExtra("apelido", nomeDigitado)
+                            intent.putExtra(ResultadoActivity.NOME_DIGITADO, nomeDigitado)
                             startActivity(intent)
                         }
                     )
@@ -53,6 +54,12 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
+
+    override fun onResume() {
+        super.onResume()
+        Log.d("MainActivity", "onResume")
+    }
+
 }
 
 @Composable
@@ -78,22 +85,27 @@ fun Formulario(name: String, modifier: Modifier = Modifier
             }
         )
         Spacer(modifier = Modifier.padding(10.dp))
-        BotaoAzulOcean(onClick = {
+        BotaoAzulOcean("Enviar", onClick = {
             Log.d("MainActivity", "O nome digitado é: $nomeDigitado")
             mensagem = "Olá, $nomeDigitado"
             onEnviarClick(nomeDigitado)
+        })
+
+        BotaoAzulOcean("Abrir site do ocean", onClick = {
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://www.oceanbrasil.com"))
+            context.startActivity(intent)
         })
     }
 }
 
 @Composable
-fun BotaoAzulOcean(onClick: () -> Unit) {
+fun BotaoAzulOcean(texto: String, onClick: () -> Unit) {
     Button(onClick = { onClick() }
         , colors = ButtonColors(containerColor = Color.Blue
             , contentColor = Color.White
             , disabledContainerColor = Color.Gray
             , disabledContentColor = Color.Yellow)
     ) {
-        Text("Enviar")
+        Text(texto)
     }
 }

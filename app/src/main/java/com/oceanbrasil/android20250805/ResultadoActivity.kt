@@ -17,11 +17,16 @@ import androidx.core.view.WindowInsetsCompat
 import com.oceanbrasil.android20250805.ui.theme.Android20250805Theme
 
 class ResultadoActivity : ComponentActivity() {
+
+    companion object {
+        const val NOME_DIGITADO = "XBP_143"
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
 
-        val nomeDigitado = intent.getStringExtra("apelido") ?: "Não informado"
+        val nomeDigitado = intent.getStringExtra(NOME_DIGITADO) ?: "Não informado"
         setContent {
             Android20250805Theme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
