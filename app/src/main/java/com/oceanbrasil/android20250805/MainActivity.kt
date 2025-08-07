@@ -25,6 +25,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -52,7 +53,8 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun Formulario(name: String, modifier: Modifier = Modifier) {
     var nomeDigitado by remember { mutableStateOf("") }
-    var mensagem by remember { mutableStateOf("Hello")}
+    var mensagem by remember { mutableStateOf("Aguardando... ")}
+    val context = LocalContext.current
 
     Column {
         Text(
@@ -72,8 +74,8 @@ fun Formulario(name: String, modifier: Modifier = Modifier) {
         Spacer(modifier = Modifier.padding(10.dp))
         BotaoAzulOcean(onClick = {
             Log.d("MainActivity", "O nome digitado é: $nomeDigitado")
-            mensagem = "Olá $nomeDigitado"
-//            Toast.makeText(this@MainActivity.context, "Tocou no btn!", Toast.LENGTH_LONG).show()
+            mensagem = "Olá, $nomeDigitado"
+            Toast.makeText(context, "Tocou no btn!", Toast.LENGTH_LONG).show()
         })
     }
 }
