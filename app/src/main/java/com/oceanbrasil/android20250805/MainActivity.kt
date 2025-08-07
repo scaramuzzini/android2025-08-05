@@ -1,14 +1,13 @@
 package com.oceanbrasil.android20250805
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -17,7 +16,6 @@ import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -41,7 +39,13 @@ class MainActivity : ComponentActivity() {
                     Formulario(
                         name = "Android",
                         modifier = Modifier
-                                        .padding(innerPadding)
+                                    .padding(innerPadding),
+                        onEnviarClick = {
+                            //transferir para ResultadoActivity
+                            Toast.makeText(this, "Tocou no btn!", Toast.LENGTH_LONG).show()
+                            val intent = Intent(this, ResultadoActivity::class.java)
+                            startActivity(intent)
+                        }
                     )
 
                 }
@@ -51,7 +55,8 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun Formulario(name: String, modifier: Modifier = Modifier) {
+fun Formulario(name: String, modifier: Modifier = Modifier
+               , onEnviarClick: () -> Unit) {
     var nomeDigitado by remember { mutableStateOf("") }
     var mensagem by remember { mutableStateOf("Aguardando... ")}
     val context = LocalContext.current
@@ -75,7 +80,7 @@ fun Formulario(name: String, modifier: Modifier = Modifier) {
         BotaoAzulOcean(onClick = {
             Log.d("MainActivity", "O nome digitado é: $nomeDigitado")
             mensagem = "Olá, $nomeDigitado"
-            Toast.makeText(context, "Tocou no btn!", Toast.LENGTH_LONG).show()
+            onEnviarClick()
         })
     }
 }
@@ -89,15 +94,5 @@ fun BotaoAzulOcean(onClick: () -> Unit) {
             , disabledContentColor = Color.Yellow)
     ) {
         Text("Enviar")
-    }
-}
-
-
-
-@Preview(showBackground = true)
-@Composable
-fun FormularioPreview() {
-    Android20250805Theme {
-        Formulario("Mário")
     }
 }
